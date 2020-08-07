@@ -1,0 +1,231 @@
+- 美巣ウェブサイトへようこそ！
+
+- こちらのチャットでお客様から頂くご質問についてお答え致します。
+
+- flow: init
+  rules:
+    - message: お調べになりたい項目をお選びください。
+      name: choice
+      type: SingleChoice
+      options:
+        - label: 定期について
+          value: 定期について
+          next: regular.questions
+        - label: お届けについて
+          value: お届けについて
+          next: delivery.questions
+        - label: 支払いに関して	
+          value: 支払いに関して
+          next: payment.questions
+        - label: 商品について
+          value: 商品について
+          next: goods.questions
+
+- flow: follow_up
+  rules:
+    - message: お調べになりたい項目をお選びください。
+      name: choice
+      type: SingleChoice
+      options:
+        - label: 定期について
+          value: 定期について
+          next: regular.questions
+        - label: お届けについて
+          value: お届けについて
+          next: delivery.questions
+        - label: 支払いに関して	
+          value: 支払いに関して	
+          next: payment.questions
+        - label: 商品について
+          value: 商品について
+          next: goods.questions
+        - label: 質問を終了する
+          value: 質問を終了する
+          next: finish.ends
+
+- flow: regular
+  rules:
+    - message: 定期についてですね！さらにお調べになりたい項目をお選びください。
+      name: questions
+      type: SingleChoice
+      options:
+        - label: 定期コースのメリットは？
+          next: answers.r1
+        - label: 解約できる？
+          next: answers.r2
+        - label: 定期のお休みはできる？
+          next: answers.r3
+        - label: お届けの頻度は変更できる？
+          next: answers.r4
+
+- flow: delivery
+  rules:
+    - message: お届けについてですね！さらにお調べになりたい項目を お選びください。
+      name: questions
+      type: SingleChoice
+      options:
+        - label: 配送業者はどこですか？
+          next: answers.d1
+        - label: 配送業者は選べますか？
+          next: answers.d2
+        - label: 送料は？
+          next: answers.d3
+        - label: 注文後どれくらいで届きますか？
+          next: answers.d4
+        - label: 海外へのお届けはできますか？
+          next: answers.d5
+        - label: 住所変更はどのようにすれば良いですか？
+          next: answers.d6
+        - label: 商品が届きません。
+          next: answers.d7
+        - label: 返品の方法について知りたい。
+          next: answers.d8
+
+- flow: payment
+  rules:
+    - message: 支払いについてですね！さらにお調べになりたい項目を お選びください。
+      name: questions
+      type: SingleChoice
+      options:
+        - label: 支払い方法の種類は？
+          next: answers.p1
+        - label: 支払い手数料について知りたい。
+          next: answers.p2
+        - label: 振込用紙の有効期限はありますか？
+          next: answers.p4
+        - label: 使用できるクレジットカードの種類は？
+          next: answers.p5
+        - label: 分割払いはできますか？
+          next: answers.p6
+        - label: 振込用紙を無くしました。
+          next: answers.p7
+
+- flow: goods
+  rules:
+    - message: 商品についてですね！さらにお調べになりたい項目を お選びください。
+      name: questions
+      type: SingleChoice
+      options:
+        - label: 妊婦や子供も使うことができますか？
+          next: answers.g1
+        - label: 天然と養殖の違いについて知りたい。
+          next: answers.g2
+
+- flow: answers
+  rules:
+    - message:  1.全国どこでも送料無料 <br>
+                2.定期便の購入価格を毎回10％割引(美巣16/美巣16無糖タイプを除く) <br>
+                3.数量限定商品や人気の商品で品薄状態になる場合もございますが 
+                既に定期便をご利用のお客様は、在庫を確保して商品を優先的にお届け <br>
+                4.回数に応じて素敵なプレゼントをご用意
+                でございます。							
+      name: r1
+      next: follow_up.choice
+    - message:  解約は可能でございます。
+                継続回数の縛りはございませんので
+                次回お届けの2週間前にご連絡を頂ければ
+                いつでもご解約頂けます。
+                ご解約ご希望の際は美巣コールセンターまでご連絡くださいませ。
+      delay: 1
+      name: r2
+    - message:  美巣コールセンター(受付時間：9時〜20時)<br>
+                ・新規のお客様はこちら<br>
+                  <a href="tel://81-0120-128-213">0120-128-213</a><br>
+                ・既存のお客様はこちら<br>
+                  <a href="tel://81-0120-005-213">0120-005-213</a><br>
+                ・メールでのお問い合わせ(24時間受付)<br>
+                  <a href="mailto://info@bi-su.jp">info@bi-su.jp</a>
+      delay: 1
+      next: follow_up.choice
+    - message:  いつでもお休み頂けます。
+                皆様のライフスタイルに合わせて
+                ご継続頂ければ幸いです。
+      name: r3
+      next: follow_up.choice
+    - message:  毎月・2か月毎のお届けがございます。
+                こちらは何回目からでも変更可能でございます。
+      name: r4
+      next: follow_up.choice
+    - message:  日本郵政でございます。
+      name: d1
+      next: follow_up.choice
+    - message:  お選びすることができません。日本郵政でのみのお届けでございます。
+      name: d2
+      next: follow_up.choice
+    - message:  単品でのお申込みの場合、一律660円（税込）頂いております。定期コース申込中のお客様は全商品（単品・定期問わず）送料無料でお送りさせて頂いております。
+      name: d3
+      next: follow_up.choice
+    - message:  お届けに3日～4日前後お時間頂いております。
+      name: d4
+      next: follow_up.choice
+    - message:  可能でございます。WEBよりクレジットカード頂きお申込み下さい。ご登録頂ければ送料等確認の為、弊社よりご連絡させて頂きます。
+      name: d5
+      next: follow_up.choice
+    - message:  公式サイトのマイページより変更可能です。ご不明点ございましたらフリーダイヤルまで お気軽にお問い合わせください。
+      name: d6
+      next: follow_up.choice
+    - message:  誠に申し訳ございません。詳細認致しますので、大変恐縮でございますが、フリーダイヤル、もしくは メールにてお問合せ頂けますと幸いでございます。
+      name: d7
+      next: follow_up.choice
+    - message:  詳細確認、ご案内させて頂きますので、フリーダイヤル、もしくはメールにてご連絡下さい。
+      name: d8
+      next: follow_up.choice
+    - message:  支払い方法はクレジットカード　後払い振込用紙　代金引換 銀行先振り込みの4種類ございます。
+      name: p1
+      next: follow_up.choice
+    - message:  クレジットカード：0円 後払い振込用紙・代金引換：330円（税込）でございます。手数料がかからず、毎回お支払いをしにいく手間を省くことができる クレジットカードでのお支払いをおすすめしております。
+      name: p2
+      next: follow_up.choice
+    - message: 
+      name: p3
+      next: follow_up.choice
+    - message:  再発行をご希望の場合はお気軽にご連絡くださいませ。
+      name: p4
+      next: follow_up.choice
+    - message:  クレジットカードの種類はVISA・MASTER・JCB・AMERICANEXPRESS・DINERS の計5種類でございます。
+      name: p5
+      next: follow_up.choice
+    - message: 一括のみのお支払いございます。
+      name: p6
+      next: follow_up.choice
+    - message:  弊社より再発行させていただきます。お手数ですが、フリーダイヤル、もしくは メールにてお問合せくださいませ。
+      name: p7
+      next: follow_up.choice
+    - message:  使うことは可能でございます。もしご不安なようであればかかりつけのお医者様にご相談頂ければと思いますが、美巣で使用するのは100%天然の
+                アナツバメの巣なので、妊娠中など摂取するものに気をつけたい時期でも安心してお召し上がり頂けます。
+                妊娠中・授乳中は、赤ちゃんの脳や体を育てるとても重要な時期です。
+                お母さんが摂取した物が血液となり、赤ちゃんの栄養源ともなるので、栄養価の高いものをとりたいところです。
+                アナツバメの巣には、健康に深く関係する糖鎖栄養素の１つであり、脳の発育や免疫に関わる栄養素であるシアル酸が含まれており、
+                妊娠中のお母さんと赤ちゃんの両方にとって必要なビタミンや、カルシウム、ミネラル等も豊富に含まれています。
+                免疫力を高める効果も期待されるため、お子さんやお母さんの大事な時期に、弊社商品を召し上がって頂き、
+                お役にたてることを願っています。
+                <br>
+                ※補足※
+                中国ではツバメの巣を妊娠、出産などでお送りする文化もあり、大変良いものとして考えられております。
+                妊娠中は体質が変わったり、産後も赤ちゃんが産まれ幸せながらも大変な時期で、
+                肌荒れや髪質の変化に悩むお母さんも少なくありませんがツバメの巣には美肌や細胞を元気にするのにかかせない
+                E.G.FやF.G.Fも入っておりますので、ご自身の使用はもちろん、プレゼントとしても大変喜ばれております。"
+      name: g1
+      next: follow_up.choice
+    - message:  弊社のミッションとして、アナツバメの生態系の保護が
+                ございます。ですので美巣の方向性として養殖を
+                使用する事は一切なく、必ず、巣立った後の100％天然のツバメの巣を
+                頂いております。
+                【天然のアナツバメ】自身の自然の生命力から生まれてきた巣をいただき、そこから自社で責任をもって開発皆様にお届けする様にしておりますので、きっと燕の巣の巣自体が発するフォトン量は多いと考えております。
+      name: g2
+      next: follow_up.choice
+    - message:  アナツバメの巣はマレーシアが政府を上げて
+                管理しておりその品質、信頼性は高くございます。
+                また弊社代表が自らツバメの巣を取りに行っており
+                ますので、100％天然、安心、また高品質である事を
+                証明できます
+      name: g3
+      next: follow_up.choice
+
+- flow: finish
+  rules:
+    - message:  ご利用ありがとうございました！美巣では美巣お客様センターでもお客様のご質問の回答やご案内等を行っております。お電話またはメールにてお気軽にご連絡ください。
+      name: ends
+      
+    - message: 美巣コールセンター(受付時間：9時〜20時) <br>・新規のお客様はこちら<br> <a href="tel://81-0120-128-213">0120-128-213</a> <br>・既存のお客様はこちら<br> <a href="tel://81-0120-005-213">0120-005-213</a> <br>・メールでのお問い合わせ(24時間受付)<br><a href="mailto://info@bi-su.jp">info@bi-su.jp</a>																					
+      exit: true
